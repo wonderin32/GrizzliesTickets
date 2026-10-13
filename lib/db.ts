@@ -9,7 +9,7 @@ export function getSql() {
 
 let ready: Promise<void> | null = null;
 
-// Creates tables on first use and seeds the fallback schedule if empty.
+// Creates tables on first use and tops up the seed schedule until the first NBA sync.
 export function ensureSchema() {
   ready ??= (async () => {
     const q = getSql();
@@ -26,8 +26,9 @@ export function ensureSchema() {
       updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
     )`;
     await q`CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT NOT NULL)`;
-    const [{ count }] = await q`SELECT count(*)::int AS count FROM games`;
-    if (count === 0) {
+    // Until the NBA sync has succeeded once, keep the seed list complete.
+    const synced = await q`SELECT 1 FROM meta WHERE key = 'last_sync'`;
+    if (synced.length === 0) {
       await q.transaction(
         SEED_GAMES.map(
           (g) => q`INSERT INTO games (game_id, game_date, tipoff, opponent, opponent_code)

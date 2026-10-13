@@ -123,7 +123,7 @@ export default function GameTracker() {
             <span className="ball" aria-hidden />
             <div>
               <h1>Grizzlies Game Tracker</h1>
-              <p>FedExForum home games · 2026–27</p>
+              <p>{games ? `${games.length} ` : ""}FedExForum home games · 2026–27</p>
             </div>
           </div>
           <span className={`save save-${saveState}`}>

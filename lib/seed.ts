@@ -1,4 +1,4 @@
-// Fallback 2026-27 home schedule, used only until the official NBA schedule
+// 2026-27 home schedule (40 games), used only until the official NBA schedule
 // sync succeeds (see lib/sync.ts). Seed rows are replaced by synced games.
 export const SEED_GAMES: { date: string; opponent: string; code: string; tipoff?: string }[] = [
   { date: "2026-10-21", opponent: "Utah Jazz", code: "UTA", tipoff: "2026-10-22T00:00:00Z" },
@@ -18,8 +18,11 @@ export const SEED_GAMES: { date: string; opponent: string; code: string; tipoff?
   { date: "2026-12-20", opponent: "Phoenix Suns", code: "PHX" },
   { date: "2026-12-23", opponent: "Toronto Raptors", code: "TOR" },
   { date: "2026-12-29", opponent: "San Antonio Spurs", code: "SAS" },
-  { date: "2027-01-16", opponent: "Cleveland Cavaliers", code: "CLE" },
+  { date: "2027-01-10", opponent: "Dallas Mavericks", code: "DAL", tipoff: "2027-01-10T23:00:00Z" },
+  { date: "2027-01-12", opponent: "Dallas Mavericks", code: "DAL", tipoff: "2027-01-13T01:00:00Z" },
+  { date: "2027-01-16", opponent: "Cleveland Cavaliers", code: "CLE", tipoff: "2027-01-17T01:00:00Z" },
   { date: "2027-01-18", opponent: "Houston Rockets", code: "HOU", tipoff: "2027-01-19T00:30:00Z" },
+  { date: "2027-01-25", opponent: "Minnesota Timberwolves", code: "MIN", tipoff: "2027-01-26T01:00:00Z" },
   { date: "2027-02-03", opponent: "Philadelphia 76ers", code: "PHI" },
   { date: "2027-02-06", opponent: "Portland Trail Blazers", code: "POR" },
   { date: "2027-02-08", opponent: "Portland Trail Blazers", code: "POR" },
@@ -28,9 +31,14 @@ export const SEED_GAMES: { date: string; opponent: string; code: string; tipoff?
   { date: "2027-02-15", opponent: "New York Knicks", code: "NYK" },
   { date: "2027-02-17", opponent: "San Antonio Spurs", code: "SAS" },
   { date: "2027-02-18", opponent: "Boston Celtics", code: "BOS" },
-  { date: "2027-03-08", opponent: "Atlanta Hawks", code: "ATL" },
-  { date: "2027-03-20", opponent: "Oklahoma City Thunder", code: "OKC" },
-  { date: "2027-03-30", opponent: "Los Angeles Lakers", code: "LAL" },
+  { date: "2027-02-27", opponent: "Sacramento Kings", code: "SAC" },
+  { date: "2027-03-06", opponent: "New Orleans Pelicans", code: "NOP", tipoff: "2027-03-07T01:00:00Z" },
+  { date: "2027-03-08", opponent: "Atlanta Hawks", code: "ATL", tipoff: "2027-03-09T01:00:00Z" },
+  { date: "2027-03-15", opponent: "Phoenix Suns", code: "PHX", tipoff: "2027-03-16T00:00:00Z" },
+  { date: "2027-03-20", opponent: "Oklahoma City Thunder", code: "OKC", tipoff: "2027-03-21T00:00:00Z" },
+  { date: "2027-03-22", opponent: "Charlotte Hornets", code: "CHA", tipoff: "2027-03-23T00:00:00Z" },
+  { date: "2027-03-25", opponent: "Chicago Bulls", code: "CHI", tipoff: "2027-03-26T00:00:00Z" },
+  { date: "2027-03-30", opponent: "Los Angeles Lakers", code: "LAL", tipoff: "2027-03-31T00:00:00Z" },
   { date: "2027-04-06", opponent: "Detroit Pistons", code: "DET" },
   { date: "2027-04-07", opponent: "Washington Wizards", code: "WAS" },
 ];
