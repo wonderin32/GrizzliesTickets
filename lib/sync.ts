@@ -8,6 +8,8 @@ type NbaGame = {
   gameId: string;
   gameDateTimeUTC: string;
   gameStatusText?: string;
+  gameLabel?: string;
+  gameSubtype?: string;
   homeTeam: NbaTeam;
   awayTeam: NbaTeam;
 };
@@ -34,17 +36,19 @@ export async function syncSchedule() {
       const date = memphisDate(g.gameDateTimeUTC);
       const tbd = /tbd/i.test(g.gameStatusText ?? "");
       const tipoff = tbd ? null : g.gameDateTimeUTC;
+      const label = /cup/i.test(g.gameLabel ?? "") || g.gameSubtype === "in-season" ? "NBA Cup" : null;
       const opponent = `${g.awayTeam.teamCity} ${g.awayTeam.teamName}`;
       return [
         // Adopt a matching fallback seed row so its picks/notes carry over.
         sql`UPDATE games SET game_id = ${g.gameId}
             WHERE game_id = ${"seed-" + date}
               AND NOT EXISTS (SELECT 1 FROM games WHERE game_id = ${g.gameId})`,
-        sql`INSERT INTO games (game_id, game_date, tipoff, opponent, opponent_code)
-            VALUES (${g.gameId}, ${date}, ${tipoff}, ${opponent}, ${g.awayTeam.teamTricode})
+        sql`INSERT INTO games (game_id, game_date, tipoff, opponent, opponent_code, label)
+            VALUES (${g.gameId}, ${date}, ${tipoff}, ${opponent}, ${g.awayTeam.teamTricode}, ${label})
             ON CONFLICT (game_id) DO UPDATE SET
               game_date = EXCLUDED.game_date, tipoff = EXCLUDED.tipoff,
-              opponent = EXCLUDED.opponent, opponent_code = EXCLUDED.opponent_code`,
+              opponent = EXCLUDED.opponent, opponent_code = EXCLUDED.opponent_code,
+              label = COALESCE(EXCLUDED.label, games.label)`,
       ];
     }),
     // Drop untouched seed rows that didn't match an official game.

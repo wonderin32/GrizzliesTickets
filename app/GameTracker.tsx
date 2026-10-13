@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Game, NOTES_MAX, OPTIONS, OPTION_COLORS, Option } from "@/lib/options";
 
-type Filter = Option | "Open" | null;
+type Filter = Option | "Open" | "Cup" | null;
 type SaveState = "idle" | "saving" | "saved" | "error";
 
 const POLL_MS = 15000;
@@ -36,6 +36,7 @@ function formatTime(tipoff: string | null) {
 function matches(g: Game, f: Filter) {
   if (!f) return true;
   if (f === "Open") return !g.slot1 || !g.slot2;
+  if (f === "Cup") return g.label === "NBA Cup";
   return g.slot1 === f || g.slot2 === f;
 }
 
@@ -94,13 +95,14 @@ export default function GameTracker() {
 
   const today = todayLocal();
   const counts = useMemo(() => {
-    const c: Record<string, number> = { Open: 0 };
+    const c: Record<string, number> = { Open: 0, Cup: 0 };
     OPTIONS.forEach((o) => (c[o] = 0));
     (games ?? []).forEach((g) => {
       if (!showPast && g.game_date < today) return;
       if (g.slot1) c[g.slot1]++;
       if (g.slot2) c[g.slot2]++;
       if (!g.slot1 || !g.slot2) c.Open++;
+      if (g.label === "NBA Cup") c.Cup++;
     });
     return c;
   }, [games, showPast, today]);
@@ -150,6 +152,9 @@ export default function GameTracker() {
         <button className={`chip chip-open ${filter === "Open" ? "active" : ""}`} onClick={() => setFilter(filter === "Open" ? null : "Open")}>
           Open seat <b>{counts.Open}</b>
         </button>
+        <button className={`chip chip-cup ${filter === "Cup" ? "active" : ""}`} onClick={() => setFilter(filter === "Cup" ? null : "Cup")}>
+          🏆 NBA Cup <b>{counts.Cup}</b>
+        </button>
         <label className="past-toggle">
           <input type="checkbox" checked={showPast} onChange={(e) => setShowPast(e.target.checked)} />
           Show past games
@@ -169,7 +174,7 @@ export default function GameTracker() {
               const past = g.game_date < today;
               const notes = drafts[g.id] ?? g.notes;
               return (
-                <article key={g.id} className={`card ${past ? "past" : ""} ${g.id === nextGameId ? "next" : ""}`}>
+                <article key={g.id} className={`card ${past ? "past" : ""} ${g.id === nextGameId ? "next" : ""} ${g.label === "NBA Cup" ? "cup" : ""}`}>
                   <div className="date">
                     <span className="dow">{d.dow}</span>
                     <span className="day">{d.day}</span>
@@ -179,6 +184,7 @@ export default function GameTracker() {
                     <div className="matchup">
                       <span className="vs">vs</span>
                       <span className="opp">{g.opponent}</span>
+                      {g.label === "NBA Cup" && <span className="cup-badge">🏆 NBA Cup</span>}
                       {g.id === nextGameId && <span className="next-badge">Next up</span>}
                     </div>
                     <div className="time">{formatTime(g.tipoff)}</div>

@@ -25,15 +25,17 @@ export function ensureSchema() {
       notes TEXT NOT NULL DEFAULT '',
       updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
     )`;
+    await q`ALTER TABLE games ADD COLUMN IF NOT EXISTS label TEXT`;
     await q`CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT NOT NULL)`;
     // Until the NBA sync has succeeded once, keep the seed list complete.
     const synced = await q`SELECT 1 FROM meta WHERE key = 'last_sync'`;
     if (synced.length === 0) {
       await q.transaction(
         SEED_GAMES.map(
-          (g) => q`INSERT INTO games (game_id, game_date, tipoff, opponent, opponent_code)
-                   VALUES (${"seed-" + g.date}, ${g.date}, ${g.tipoff ?? null}, ${g.opponent}, ${g.code})
-                   ON CONFLICT (game_id) DO NOTHING`
+          (g) => q`INSERT INTO games (game_id, game_date, tipoff, opponent, opponent_code, label)
+                   VALUES (${"seed-" + g.date}, ${g.date}, ${g.tipoff ?? null}, ${g.opponent}, ${g.code}, ${g.label ?? null})
+                   ON CONFLICT (game_id) DO UPDATE SET
+                     label = EXCLUDED.label, tipoff = COALESCE(games.tipoff, EXCLUDED.tipoff)`
         )
       );
     }

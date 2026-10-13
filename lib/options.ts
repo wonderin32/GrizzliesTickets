@@ -24,6 +24,7 @@ export type Game = {
   tipoff: string | null; // ISO timestamp, null when time is TBD
   opponent: string;
   opponent_code: string | null;
+  label: string | null; // e.g. "NBA Cup"
   slot1: Option | null;
   slot2: Option | null;
   notes: string;

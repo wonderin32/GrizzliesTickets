@@ -74,6 +74,14 @@ button, select, input { font: inherit; color: inherit; }
 .chip.active b { color: inherit; opacity: 0.8; }
 .chip.active .dot { background: currentColor; }
 .chip-all.active, .chip-open.active { --tag-bg: var(--navy); --tag-fg: var(--white); }
+.chip-cup.active { --tag-bg: var(--gold); --tag-fg: var(--navy); }
+.cup-badge {
+  font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em;
+  background: var(--navy); color: var(--gold); padding: 2px 8px; border-radius: 999px;
+  border: 1px solid var(--gold);
+}
+.card.cup { background: linear-gradient(90deg, #fff8e6 0%, var(--card) 45%); }
+.card.cup .date { border-right: 4px solid var(--gold); }
 .past-toggle { flex: none; display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--muted); padding: 0 4px; }
 
 /* List */

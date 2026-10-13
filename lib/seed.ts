@@ -1,15 +1,15 @@
 // 2026-27 home schedule (40 games), used only until the official NBA schedule
 // sync succeeds (see lib/sync.ts). Seed rows are replaced by synced games.
-export const SEED_GAMES: { date: string; opponent: string; code: string; tipoff?: string }[] = [
+export const SEED_GAMES: { date: string; opponent: string; code: string; tipoff?: string; label?: string }[] = [
   { date: "2026-10-21", opponent: "Utah Jazz", code: "UTA", tipoff: "2026-10-22T00:00:00Z" },
   { date: "2026-10-31", opponent: "Sacramento Kings", code: "SAC" },
   { date: "2026-11-02", opponent: "New Orleans Pelicans", code: "NOP" },
   { date: "2026-11-04", opponent: "Indiana Pacers", code: "IND" },
-  { date: "2026-11-06", opponent: "Oklahoma City Thunder", code: "OKC" },
+  { date: "2026-11-06", opponent: "Oklahoma City Thunder", code: "OKC", tipoff: "2026-11-07T01:00:00Z", label: "NBA Cup" },
   { date: "2026-11-11", opponent: "Denver Nuggets", code: "DEN" },
   { date: "2026-11-14", opponent: "Brooklyn Nets", code: "BKN" },
   { date: "2026-11-19", opponent: "Golden State Warriors", code: "GSW" },
-  { date: "2026-11-25", opponent: "LA Clippers", code: "LAC" },
+  { date: "2026-11-25", opponent: "LA Clippers", code: "LAC", tipoff: "2026-11-26T01:00:00Z", label: "NBA Cup" },
   { date: "2026-11-29", opponent: "Los Angeles Lakers", code: "LAL" },
   { date: "2026-12-12", opponent: "Milwaukee Bucks", code: "MIL" },
   { date: "2026-12-14", opponent: "Golden State Warriors", code: "GSW" },
